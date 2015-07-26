@@ -72,8 +72,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 <h1 id="calculator">Calculator</h1>
 
 <h2 id="annual-leave-balance">Annual Leave Balance</h2>
-<pre class="highlight shell"><code>
-curl <span class="se">\</span>
+<pre class="highlight shell"><code>curl <span class="se">\</span>
   -X POST https://www.bindle.io/api/v1/calculator <span class="se">\</span>
   --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
   --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
@@ -88,9 +87,48 @@ curl <span class="se">\</span>
 </code></pre>
 
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w"> </span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.0"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>A global validation error (e.g. &lsquo;days_taken&rsquo; is missing):</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="se">\</span>
+  -X POST http://localhost:3000/api/v1/calculator <span class="se">\</span>
+  --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
+  --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  --data <span class="s1">'{ 
+    "start_date": "2015-01-01", 
+    "end_date": "2015-12-31"}'</span>
+</code></pre>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="s2">"days_taken is missing"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>A field validation error (e.g. &#39;part_time_hours&rsquo; is too large):</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="se">\</span>
+  -X POST http://localhost:3000/api/v1/calculator <span class="se">\</span>
+  --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
+  --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  --data <span class="s1">'{ 
+    "start_date": "2015-01-01", 
+    "end_date": "2015-12-31", 
+    "days_taken": "5.0", 
+    "part_time": "true", 
+    "part_time_hours": "419.0"}'</span>
+</code></pre>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"part_time_hours"</span><span class="p">:[</span><span class="s2">"must be less than or equal to 38.0"</span><span class="p">]}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint calculates an annual leave balance under the Australian National Employment Standards (NES).</p>
@@ -125,31 +163,31 @@ curl <span class="se">\</span>
 <td>days_taken</td>
 <td>true</td>
 <td>none</td>
-<td>The number of leave days already taken.</td>
+<td>The number of leave days already taken. Must be &gt; 0 and &lt; 100000.</td>
 </tr>
 <tr>
 <td>part_time</td>
 <td>false</td>
 <td>false</td>
-<td>Is this employee a part time employee?</td>
+<td>Is this employee a part time employee? Can be true or false.</td>
 </tr>
 <tr>
 <td>part_time_hours</td>
 <td>false</td>
 <td>38.0</td>
-<td>The average number of hours worked per week.</td>
+<td>The average number of hours worked per week. Must be &gt; 0 and &lt;= 38.0.</td>
 </tr>
 <tr>
 <td>accrual_rate</td>
 <td>false</td>
 <td>20.0</td>
-<td>Leave accrual rate in days per year.</td>
+<td>Leave accrual rate in days per year. Must be &gt; 0.</td>
 </tr>
 <tr>
 <td>shift_worker</td>
 <td>false</td>
 <td>false</td>
-<td>Is this employee a shift worker?</td>
+<td>Is this employee a shift worker? Can be true or false.</td>
 </tr>
 </tbody></table>
 
