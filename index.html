@@ -36,7 +36,6 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='https://www.bindle.io'>Bindle Home</a></li>
             <li><a href='mailto:support@bindle.io'>Mail us for an API key</a></li>
         </ul>
     </div>
@@ -47,15 +46,10 @@
 
 <p>Welcome to the Bindle API.</p>
 
-<p>We have language bindings only in Shell for the moment.</p>
+<p>We have language bindings only for terminal shell at the moment.</p>
 
 <h1 id="authentication">Authentication</h1>
-
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"https://www.bindle.io/api/v1/example"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://www.bindle.io/api/v1/example"</span>
   -H <span class="s2">"Authorization: your_api_key_goes_here"</span>
 </code></pre>
 
@@ -63,7 +57,9 @@ curl <span class="s2">"https://www.bindle.io/api/v1/example"</span>
 <p>Make sure to replace <code class="prettyprint">your_api_key_goes_here</code> with your API key.</p>
 </blockquote>
 
-<p>Bindle uses API keys to allow access to some parts of the API. You can request an API key by <a href="mailto:admin@bindle.io?Subject=Please%20Send%20Me%20An%20API%20Key&quot;">mailing us</a>.</p>
+<p>Bindle uses API keys to allow access to some parts of the API. </p>
+
+<p>You can request an API key by <a href="mailto:admin@bindle.io?Subject=Please%20Send%20Me%20An%20API%20Key&quot;">mailing us</a>.</p>
 
 <p>Where required, Bindle expects the API key to be included in requests to the server in a header that looks like the following:</p>
 
