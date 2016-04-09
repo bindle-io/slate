@@ -49,7 +49,7 @@
 <p>We have language bindings only for terminal shell at the moment.</p>
 
 <h1 id="authentication">Authentication</h1>
-<pre class="highlight shell"><code>curl <span class="s2">"https://www.bindle.io/api/v1/example"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/example"</span>
   -H <span class="s2">"Authorization: your_api_key_goes_here"</span>
 </code></pre>
 
@@ -73,7 +73,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 
 <h2 id="annual-leave-balance">Annual Leave Balance</h2>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST https://www.bindle.io/api/v1/calculator <span class="se">\</span>
+  -X POST https://app.bindle.io/api/v1/calculator <span class="se">\</span>
   --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
   --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   --data <span class="s1">'{ 
@@ -96,7 +96,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 <p>A global validation error (e.g. &lsquo;days_taken&rsquo; is missing):</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST http://localhost:3000/api/v1/calculator <span class="se">\</span>
+  -X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
   --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
   --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   --data <span class="s1">'{ 
@@ -114,7 +114,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 <p>A field validation error (e.g. &#39;part_time_hours&rsquo; is too large):</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST http://localhost:3000/api/v1/calculator <span class="se">\</span>
+  -X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
   --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
   --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   --data <span class="s1">'{ 
@@ -135,7 +135,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://www.bindle.io/api/v1/calculator</code></p>
+<p><code class="prettyprint">POST https://app.bindle.io/api/v1/calculator</code></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
