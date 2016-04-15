@@ -49,6 +49,10 @@
 <p>We have language bindings only for terminal shell at the moment.</p>
 
 <h1 id="authentication">Authentication</h1>
+
+<blockquote>
+<p>A valid API key is sent to us:</p>
+</blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/ping"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: your_api_key_goes_here"</span>
 </code></pre>
@@ -58,6 +62,10 @@
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pong"</span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<blockquote>
+<p>An invalid API key is sent to us:</p>
+</blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/ping"</span> <span class="se">\</span>
 -H <span class="s2">"Authorization: invalid_api_key"</span>
 </code></pre>
