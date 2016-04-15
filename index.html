@@ -49,13 +49,23 @@
 <p>We have language bindings only for terminal shell at the moment.</p>
 
 <h1 id="authentication">Authentication</h1>
-<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/example"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/ping"</span>
   -H <span class="s2">"Authorization: your_api_key_goes_here"</span>
 </code></pre>
 
 <blockquote>
 <p>Make sure to replace <code class="prettyprint">your_api_key_goes_here</code> with your API key.</p>
+
+<p>Response:</p>
 </blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pong"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthorized. Invalid or expired token."</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>Bindle uses API keys to allow access to some parts of the API. </p>
 
