@@ -58,7 +58,7 @@
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>200 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pong"</span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -71,7 +71,7 @@
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>401 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthorized. Invalid or inactive API access token."</span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -94,9 +94,22 @@
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>200 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35.5"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>This is what happens when an unknown email address is sent to us:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/balance?email=missing%40your-company.com"</span> <span class="se">\</span>
+-H <span class="s2">"Authorization: Token token=your_access_token_goes_here"</span>
+</code></pre>
+
+<blockquote>
+<p>404 Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="s2">"Not found. Annual leave entitlement not found for that email address."</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint will return the annual leave balance for individuals within your company.
@@ -127,7 +140,7 @@ Hence, you can use them without including an API access token.</p>
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>200 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.0"</span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -145,7 +158,7 @@ Hence, you can use them without including an API access token.</p>
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>400 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="s2">"days_taken is missing"</span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -166,7 +179,7 @@ Hence, you can use them without including an API access token.</p>
 </code></pre>
 
 <blockquote>
-<p>Response:</p>
+<p>400 Response:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"part_time_hours"</span><span class="p">:[</span><span class="s2">"must be less than or equal to 38.0"</span><span class="p">]}</span><span class="w">
 </span></code></pre>
