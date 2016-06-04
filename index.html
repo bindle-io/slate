@@ -112,6 +112,19 @@
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="s2">"Not found. Annual leave entitlement not found for that email address."</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<blockquote>
+<p>This is what happens if you haven&rsquo;t yet set up Bindle to track leave balances:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/balance?email=someone%40your-company.com"</span> <span class="se">\</span>
+-H <span class="s2">"Authorization: Token token=your_access_token_goes_here"</span>
+</code></pre>
+
+<blockquote>
+<p>400 Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="s2">"Your company is not set up to use Bindle to track balances."</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 <p>This endpoint will return the annual leave balance for individuals within your company.
 The balance is calculated as at today and the balance amount is given in days.</p>
 
