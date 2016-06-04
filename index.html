@@ -36,7 +36,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='mailto:support@bindle.io'>Mail us for an API key</a></li>
+            <li><a href='mailto:support@bindle.io'>Mail us if you need assistance</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -46,15 +46,15 @@
 
 <p>Welcome to the Bindle API.</p>
 
-<p>We have language bindings only for terminal shell at the moment.</p>
+<p>We have language bindings only for terminal shell at the moment. You know curl, right? :)</p>
 
 <h1 id="authentication">Authentication</h1>
 
 <blockquote>
-<p>A valid API key is sent to us:</p>
+<p>This is what happens when a valid API access token is sent to us:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/ping"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: your_api_key_goes_here"</span>
+-H <span class="s2">"Authorization: Token token=your_access_token_goes_here"</span>
 </code></pre>
 
 <blockquote>
@@ -64,45 +64,66 @@
 </span></code></pre>
 
 <blockquote>
-<p>An invalid API key is sent to us:</p>
+<p>This is what happens when an invalid API access token is sent to us:</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/ping"</span> <span class="se">\</span>
--H <span class="s2">"Authorization: invalid_api_key"</span>
+-H <span class="s2">"Authorization: Token token=invalid_access_token"</span>
 </code></pre>
 
 <blockquote>
 <p>Response:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthorized. Invalid or expired token."</span><span class="p">}</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthorized. Invalid or inactive API access token."</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Bindle uses API keys to allow access to some parts of the API. </p>
+<p>Bindle uses API access tokens to allow access to some parts of the API.</p>
 
-<p>You can request an API key by <a href="mailto:admin@bindle.io?Subject=Please%20Send%20Me%20An%20API%20Key&quot;">mailing us</a>.</p>
+<p>If you are a Bindle account owner or administrator, you can find your API access token by logging into Bindle and looking at the Admin page.</p>
 
-<p>Where required, Bindle expects the API key to be included in requests to the server in a header that looks like the following:</p>
+<p>Where required, Bindle expects the API access token to be included in requests to the server in a header that looks like the following:</p>
 
-<p><code class="prettyprint">Authorization: your_api_key_goes_here</code></p>
+<p><code class="prettyprint">Authorization: Token token=your_access_token_goes_here</code></p>
 
 <aside class="notice">
-You must replace <code>your_api_key_goes_here</code> with your own API key.
+  You must replace <code>your_access_token_goes_here</code> with your own API access token.
 </aside>
 
-<h1 id="calculators">Calculators</h1>
+<h1 id="balances">Balances</h1>
+<pre class="highlight shell"><code>curl <span class="s2">"https://app.bindle.io/api/v1/balance?email=someone%40your-company.com"</span> <span class="se">\</span>
+-H <span class="s2">"Authorization: Token token=your_access_token_goes_here"</span>
+</code></pre>
 
-<h2 id="annual-leave-balance">Annual Leave Balance</h2>
+<blockquote>
+<p>Response:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35.5"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This is how to get the annual leave balance for someone in your comapny.
+Bindle will send you back the annual leave balance (in days) as at today.</p>
+
+<aside class="notice">
+  The email address is sent as an unquoted URL encoded parameter string.
+</aside>
+
+<h1 id="free-tools">Free Tools</h1>
+
+<p>You don&rsquo;t need a Bindle account to use our free tools. They&rsquo;re open for anyone to use.
+Hence, you can use them without including an API access token.</p>
+
+<h2 id="annual-leave-calculator">Annual Leave Calculator</h2>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST https://app.bindle.io/api/v1/calculator <span class="se">\</span>
-  --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
-  --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-  --data <span class="s1">'{ 
-    "start_date": "2015-01-01", 
-    "end_date": "2015-12-31", 
-    "days_taken": "5.0", 
-    "part_time": "true", 
-    "part_time_hours": "19.0", 
-    "accrual_rate": "20.0", 
-    "shift_worker": "false"}'</span>
+-X POST https://app.bindle.io/api/v1/calculator <span class="se">\</span>
+--header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
+--header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+--data <span class="s1">'{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31",
+"days_taken": "5.0",
+"part_time": "true",
+"part_time_hours": "19.0",
+"accrual_rate": "20.0",
+"shift_worker": "false"}'</span>
 </code></pre>
 
 <blockquote>
@@ -115,12 +136,12 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 <p>A global validation error (e.g. &lsquo;days_taken&rsquo; is missing):</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
-  --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
-  --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-  --data <span class="s1">'{ 
-    "start_date": "2015-01-01", 
-    "end_date": "2015-12-31"}'</span>
+-X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
+--header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
+--header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+--data <span class="s1">'{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31"}'</span>
 </code></pre>
 
 <blockquote>
@@ -133,15 +154,15 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 <p>A field validation error (e.g. &#39;part_time_hours&rsquo; is too large):</p>
 </blockquote>
 <pre class="highlight shell"><code>curl <span class="se">\</span>
-  -X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
-  --header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
-  --header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-  --data <span class="s1">'{ 
-    "start_date": "2015-01-01", 
-    "end_date": "2015-12-31", 
-    "days_taken": "5.0", 
-    "part_time": "true", 
-    "part_time_hours": "419.0"}'</span>
+-X POST http://app.bindle.io/api/v1/calculator <span class="se">\</span>
+--header <span class="s2">"Accept: application/json"</span> <span class="se">\</span>
+--header <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+--data <span class="s1">'{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31",
+"days_taken": "5.0",
+"part_time": "true",
+"part_time_hours": "419.0"}'</span>
 </code></pre>
 
 <blockquote>
@@ -211,7 +232,7 @@ You must replace <code>your_api_key_goes_here</code> with your own API key.
 </tbody></table>
 
 <aside class="notice">
-This end point does not require authentication.
+  This end point does not require authentication.
 </aside>
 
           <h1 id="errors">Errors</h1>
