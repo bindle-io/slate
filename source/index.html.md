@@ -1,239 +1,203 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+language_tabs:
+- shell
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+- <a href='mailto:support@bindle.io'>Bindle Support</a>
 
 includes:
-  - errors
+- errors
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Bindle API.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+We have language bindings only for terminal shell at the moment. We'd love some language specific clients if you wanna build us one, but in the meantime, you know curl, right? :)
 
 # Authentication
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+> This is what happens when a valid API access token is sent to us:
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl "https://app.bindle.io/api/v1/ping" \
+-H "Authorization: Token token=your_access_token_goes_here"
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> 200 Response:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{"message": "pong"}
 ```
 
-This endpoint retrieves all kittens.
+> This is what happens when an invalid API access token is sent to us:
+
+```shell
+curl "https://app.bindle.io/api/v1/ping" \
+-H "Authorization: Token token=invalid_access_token"
+```
+
+> 401 Response:
+
+```json
+{"error": "Unauthorized. Invalid or inactive API access token."}
+```
+
+Bindle uses API access tokens to allow access to some parts of the API.
+
+If you are a Bindle account owner or administrator, you can find your API access token by logging into Bindle and looking at the Admin page.
+
+Where required, Bindle expects the API access token to be included in requests to the server in a header that looks like the following:
+
+`Authorization: Token token=your_access_token_goes_here`
+
+<aside class="notice">
+  You must replace <code>your_access_token_goes_here</code> with your own API access token.
+</aside>
+
+# Balances
+
+```shell
+curl "https://app.bindle.io/api/v1/balance?email=someone%40your-company.com" \
+-H "Authorization: Token token=your_access_token_goes_here"
+```
+
+> 200 Response:
+
+```json
+{"balance": "35.5"}
+```
+> This is what happens when an unknown email address is sent to us:
+
+```shell
+curl "https://app.bindle.io/api/v1/balance?email=missing%40your-company.com" \
+-H "Authorization: Token token=your_access_token_goes_here"
+```
+
+> 404 Response:
+
+```json
+{"error":"Not found. Annual leave entitlement not found for that email address."}
+```
+
+> This is what happens if you haven't yet set up Bindle to track leave balances:
+
+```shell
+curl "https://app.bindle.io/api/v1/balance?email=someone%40your-company.com" \
+-H "Authorization: Token token=your_access_token_goes_here"
+```
+
+> 400 Response:
+
+```json
+{"error":"Your company is not set up to use Bindle to track balances."}
+```
+
+This endpoint will return the annual leave balance for individuals within your company.
+The balance is calculated as at today and the balance amount is given in days.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://app.bindle.io/api/v1/balance`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+email | true | none | The email address of the user.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="notice">
+  The email address is sent as an unquoted URL encoded parameter string.
 </aside>
 
-## Get a Specific Kitten
+# Leave Calculator
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+You don't need a Bindle account to use our leave calculator. It's open for anyone to use.
+Hence, you can it them without including an API access token.
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl \
+-X POST https://app.bindle.io/api/v1/calculator \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+--data '{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31",
+"days_taken": "5.0",
+"part_time": "true",
+"part_time_hours": "19.0",
+"accrual_rate": "20.0",
+"shift_worker": "false"}'
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> 200 Response:
 
 ```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
+{"balance": "5.0"}
 ```
 
-This endpoint retrieves a specific kitten.
+> A global validation error (e.g. 'days_taken' is missing):
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+```shell
+curl \
+-X POST http://app.bindle.io/api/v1/calculator \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+--data '{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31"}'
+```
+
+> 400 Response:
+
+```json
+{"error":"days_taken is missing"}
+```
+
+> A field validation error (e.g. 'part_time_hours' is too large):
+
+```shell
+curl \
+-X POST http://app.bindle.io/api/v1/calculator \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+--data '{
+"start_date": "2015-01-01",
+"end_date": "2015-12-31",
+"days_taken": "5.0",
+"part_time": "true",
+"part_time_hours": "419.0"}'
+```
+
+> 400 Response:
+
+```json
+{"part_time_hours":["must be less than or equal to 38.0"]}
+```
+
+This endpoint calculates an annual leave balance under the Australian National Employment Standards (NES).
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST https://app.bindle.io/api/v1/calculator`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+start_date | true | none | The date to start calculating leave accrual from.
+end_date | true | none | Calculate balance as at this date.
+days_taken | true | none | The number of leave days already taken. Must be > 0 and < 100000.
+part_time | false | false | Is this employee a part time employee? Can be true or false.
+part_time_hours | false | 38.0 | The average number of hours worked per week. Must be > 0 and <= 38.0.
+accrual_rate | false | 20.0 | Leave accrual rate in days per year. Must be > 0.
+shift_worker | false | false | Is this employee a shift worker? Can be true or false.
 
-## Delete a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+<aside class="notice">
+  This end point does not require authentication.
+</aside>
