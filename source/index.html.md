@@ -193,7 +193,7 @@ start_date | true | none | The date to start calculating leave accrual from.
 end_date | true | none | Calculate balance as at this date.
 days_taken | true | none | The number of leave days already taken. Must be > 0 and < 100000.
 part_time | false | false | Is this employee a part time employee? Can be true or false.
-part_time_hours | false | 38.0 | The average number of hours worked per week. Must be > 0 and <= 38.0.
+part_time_hours | false | 38.0 | The average number of hours worked per week. Required if part_time set to true, otherwise ignored. Must be > 0 and <= 38.0.
 accrual_rate | false | 20.0 | Leave accrual rate in days per year. Must be > 0.
 shift_worker | false | false | Is this employee a shift worker? Can be true or false.
 
