@@ -39,7 +39,7 @@
             http: { get: '#337AB7', post: '#5CB85C' }
           },
           typography: {
-            fontSize: '15px',
+            fontSize: '16px',
             fontFamily: '"adelle-sans", Helvetica, Arial, sans-serif',
             headings: { fontFamily: '"adelle-sans", Helvetica, Arial, sans-serif', fontWeight: '600' },
             code: { fontFamily: 'Consolas, Menlo, Monaco, "Courier New", monospace' }
@@ -68,7 +68,7 @@
         })
         .then(function (spec) {
           spec.info = spec.info || {};
-          spec.info['x-logo'] = { url: 'logo.png', backgroundColor: '#FFFFFF', altText: 'Bindle' };
+          spec.info['x-logo'] = { url: 'logo.png', backgroundColor: '#F7F9FA', altText: 'Bindle' };
           Redoc.init(spec, OPTIONS, document.getElementById('reference'));
         })
         .catch(unreachable);
