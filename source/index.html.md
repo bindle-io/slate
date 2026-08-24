@@ -81,7 +81,7 @@ curl "https://app.bindle.io/api/v1/balance?email=missing%40your-company.com" \
 > 404 Response:
 
 ```json
-{"error":"Not found. Annual leave entitlement not found for that email address."}
+{"error":"Not found. Main entitlement not found for that email address."}
 ```
 
 > This is what happens if you haven't yet set up Bindle to track leave balances:
@@ -113,6 +113,117 @@ email | true | none | The email address of the user.
 <aside class="notice">
   The email address is sent as an unquoted URL encoded parameter string.
 </aside>
+
+# Entitlements
+
+```shell
+curl "https://app.bindle.io/api/v1/entitlements?email=someone%40your-company.com" \
+-H "Authorization: Token token=your_access_token_goes_here"
+```
+
+> 200 Response:
+
+```json
+{"entitlements": ["Annual Leave", "Personal Leave", "Compassionate Leave"]}
+```
+
+> This is what happens when an unknown email address is sent to us:
+
+```json
+{"error":"No entitlements found for that email address."}
+```
+
+This endpoint lists the names of every entitlement a person has.
+
+### HTTP Request
+
+`GET https://app.bindle.io/api/v1/entitlements`
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+email | true | none | The email address of the user.
+
+# Leave
+
+```shell
+curl "https://app.bindle.io/api/v1/leave?email=someone%40your-company.com&from=2026-01-01&to=2026-03-31" \
+-H "Authorization: Token token=your_access_token_goes_here"
+```
+
+> 200 Response:
+
+```json
+{
+  "email": "someone@your-company.com",
+  "from": "2026-01-01",
+  "to": "2026-03-31",
+  "entitlements": [
+    {
+      "name": "Annual Leave",
+      "balance": "12.8151",
+      "leave": [
+        {"paid": true, "days": 3.0},
+        {"paid": false, "days": 0}
+      ]
+    },
+    {
+      "name": "Compassionate Leave",
+      "balance": null,
+      "leave": [
+        {"paid": true, "days": 0},
+        {"paid": false, "days": 0}
+      ]
+    }
+  ]
+}
+```
+
+> This is what happens when an unknown email address is sent to us:
+
+```json
+{"error":"Not found. No person with that email address."}
+```
+
+> This is what happens when the period runs backwards:
+
+```json
+{"error":"from must not be later than to."}
+```
+
+This endpoint returns every entitlement a person has, each with its balance as at
+the end of the period and the leave booked or taken within it.
+
+Use it to answer questions like "what was everyone's annual leave balance at the
+end of each quarter, and how much did they book or take inside it". Ask for the
+period you care about and total it up however you like. Bindle does not impose a
+quarter, a month or a leave year on the figures.
+
+`balance` is the balance in days as at the `to` date, not as at today. It is
+`null` where the entitlement does not carry a balance, or where your company is
+not set up to track balances. The rest of the response is still returned.
+
+`leave` is the leave booked or taken inside the period, in days, counting both
+approved and pending bookings, with `paid` marking which kind each figure is. A
+booking that straddles the edge of the period is counted only for the part that
+falls inside it, so consecutive periods never double count the same day.
+
+<aside class="notice">
+  Both <code>from</code> and <code>to</code> are inclusive.
+</aside>
+
+### HTTP Request
+
+`GET https://app.bindle.io/api/v1/leave`
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+email | true | none | The email address of the user.
+from | true | none | First day of the period, as YYYY-MM-DD.
+to | true | none | Last day of the period, as YYYY-MM-DD. Balances are given as at this date.
 
 # Leave Calculator
 
