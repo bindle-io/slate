@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bindle API Reference</title>
+    <link rel="icon" href="logo.png">
+    <script src="https://use.typekit.net/xam3lle.js"></script>
+    <script>try { Typekit.load({ async: false }); } catch (e) {}</script>
+    <style>
+      body { margin: 0; padding: 0; font-family: "adelle-sans", Helvetica, Arial, sans-serif; }
+      #unreachable {
+        display: none; margin: 0; padding: 24px 28px;
+        background: #F2DEDE; color: #A94442; font-size: 15px; line-height: 1.5;
+      }
+      #unreachable a { color: #A94442; }
+    </style>
+  </head>
+  <body>
+    <p id="unreachable">
+      The reference could not be loaded from
+      <a href="https://app.bindle.io/api/v1/swagger_doc">app.bindle.io</a>.
+      That usually means Bindle itself is unreachable rather than anything being wrong with your
+      connection. Try again shortly, or write to <a href="mailto:support@bindle.io">support@bindle.io</a>.
+    </p>
+    <div id="reference"></div>
+
+    <script src="redoc.standalone.js"></script>
+    <script>
+      var SPEC = 'https://app.bindle.io/api/v1/swagger_doc';
+
+      var OPTIONS = {
+        theme: {
+          colors: {
+            primary: { main: '#337AB7' },
+            text: { primary: '#333333' },
+            http: { get: '#337AB7', post: '#5CB85C' }
+          },
+          typography: {
+            fontSize: '15px',
+            fontFamily: '"adelle-sans", Helvetica, Arial, sans-serif',
+            headings: { fontFamily: '"adelle-sans", Helvetica, Arial, sans-serif', fontWeight: '600' },
+            code: { fontFamily: 'Consolas, Menlo, Monaco, "Courier New", monospace' }
+          },
+          sidebar: { backgroundColor: '#2B313A', textColor: '#FFFFFF', activeTextColor: '#FFFFFF' },
+          rightPanel: { backgroundColor: '#21262E' }
+        },
+        expandResponses: '200',
+        hideDownloadButton: false,
+        nativeScrollbars: true
+      };
+
+      function unreachable() {
+        document.getElementById('unreachable').style.display = 'block';
+      }
+
+      fetch(SPEC)
+        .then(function (response) {
+          if (!response.ok) { throw new Error(response.status); }
+          return response.json();
+        })
+        .then(function (spec) {
+          spec.info = spec.info || {};
+          spec.info['x-logo'] = { url: 'logo.png', backgroundColor: '#2B313A', altText: 'Bindle' };
+          Redoc.init(spec, OPTIONS, document.getElementById('reference'));
+        })
+        .catch(unreachable);
+    </script>
+  </body>
+</html>
