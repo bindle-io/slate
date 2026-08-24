@@ -2,7 +2,7 @@
 set -euo pipefail
 
 branch=gh-pages
-files=(index.html redoc.standalone.js logo.png CNAME)
+files=(index.html redoc.standalone.js logo.png favicon.ico favicon-32x32.png apple-touch-icon.png CNAME)
 
 for f in "${files[@]}"; do
   [ -f "$f" ] || { echo "missing $f" >&2; exit 1; }
