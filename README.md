@@ -24,8 +24,10 @@ Edit the `OPTIONS` object in `index.html`. The palette is taken from the Bindle 
 `#337AB7` for brand blue, `#2B313A` for the sidebar, and adelle-sans from the same Typekit kit
 the application uses.
 
-`api.bindle.io` must be an authorised domain on Typekit kit `xam3lle` or the type falls back to
-Helvetica.
+The fonts come from Adobe Fonts kit `xam3lle`, the same one the application loads. Adobe Fonts
+web projects are not restricted by domain, so nothing needs authorising for this host. Verified
+by requesting a font file with several referrers, including a bogus one, and getting the same
+200 every time.
 
 ## Publishing
 
