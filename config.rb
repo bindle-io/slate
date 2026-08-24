@@ -54,3 +54,24 @@ set :port, 4567
 helpers do
   require './lib/toc_data.rb'
 end
+
+after_build do |builder|
+  js_root = File.join(root, 'source', 'javascripts')
+  resolve = nil
+  resolve = lambda do |rel, seen|
+    full = File.expand_path(rel, js_root)
+    full += '.js' unless full.end_with?('.js')
+    next '' if seen.include?(full)
+    seen << full
+    body = File.read(full)
+    here = File.dirname(full)
+    deps = body.scan(%r{^//= require (.+)$}).flatten.map do |dep|
+      resolve.call(File.expand_path(dep.strip, here), seen)
+    end
+    (deps + [body.gsub(%r{^//= require .+$}, '')]).join("\n")
+  end
+
+  %w(all all_nosearch).each do |name|
+    File.write(File.join(root, 'build', 'javascripts', "#{name}.js"), resolve.call(name, []))
+  end
+end
